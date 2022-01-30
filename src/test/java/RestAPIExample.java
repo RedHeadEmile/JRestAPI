@@ -14,8 +14,11 @@ public class RestAPIExample {
             if (e.getUriIn().startsWith("/deploy/")) {
                 String auth = e.getHeadersIn().get("Authentication");
                 if (auth != null && auth.equals("myreallysecrettoken")) {
-                    //Runtime.getRuntime().exec("bash " + e.getUriIn().substring(8));
-                    System.out.println("bash " + e.getUriIn().substring(8));
+                    try {
+                        Runtime.getRuntime().exec("/home/rest/scripts/" + e.getUriIn().substring(8) + ".sh");
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
                 else
                     e.setContentOut("Bad token");
